@@ -13,27 +13,24 @@ namespace Wegot.MyLibrary.Api.Controllers
     [ApiController]
 
     public class BooksController : ControllerBase
-    {
+    { 
+        private readonly IBookService _bookService;
 
-        private readonly ILogger<BooksController> logger;
-        private readonly IBookService bookService;
-
-        public BooksController(ILogger<BooksController> logger, IBookService bookService)
+        public BooksController( IBookService bookService)
         {
-            this.logger = logger;
-            this.bookService = bookService;
+            this._bookService = bookService;
         }
 
         [HttpGet()]
         public async Task<List<BookDTO>> GetAll()
         {
-            return await bookService.GetAll();
+            return await _bookService.GetAll();
         }
 
         [HttpGet("{Id}")]
         public async Task<BookDTO> Get(int Id)
         {
-            return await bookService.Get(Id);
+            return await _bookService.Get(Id);
         }
 
         [HttpPost]
@@ -43,7 +40,7 @@ namespace Wegot.MyLibrary.Api.Controllers
 
             try
             {
-                await bookService.Insert(bookAdd);
+                await _bookService.Insert(bookAdd);
             }
             catch (Exception exx)
             {
@@ -62,7 +59,7 @@ namespace Wegot.MyLibrary.Api.Controllers
         {
             try
             {
-                await bookService.Update(bookEdit);
+                await _bookService.Update(bookEdit);
             }
             catch (Exception exx)
             {
@@ -82,7 +79,7 @@ namespace Wegot.MyLibrary.Api.Controllers
         {
             try
             {
-                await bookService.Delete(Id);
+                await _bookService.Delete(Id);
             }
             catch (Exception exx)
             {

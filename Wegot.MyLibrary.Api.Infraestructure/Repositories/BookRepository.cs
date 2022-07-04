@@ -14,12 +14,12 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
     public class BookRepository : IBookRepository
     {
         private readonly ILogger<BookRepository> logger;
-        private readonly MyLibraryDbContext dbContext;
+        private readonly MyLibraryDbContext _dbContext;
 
         public BookRepository(ILogger<BookRepository> logger, MyLibraryDbContext dbContext)
         {
             this.logger = logger;
-            this.dbContext = dbContext;
+            this._dbContext = dbContext;
         }
 
 
@@ -33,8 +33,8 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
         {
             try
             {
-                dbContext.Books.Remove(entity);
-                await dbContext.SaveChangesAsync();
+                _dbContext.Books.Remove(entity);
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -52,7 +52,7 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
         {
             try
             {
-                return await dbContext
+                return await _dbContext
                        .Books
                        .Where(x => x.Id == id)
                        .AsNoTracking()
@@ -73,7 +73,7 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
         {
             try
             {
-                return await dbContext
+                return await _dbContext
                  .Books
                  .AsNoTracking()
                  .ToListAsync();
@@ -94,8 +94,8 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
         {
             try
             {
-                dbContext.Books.Add(entity);
-                await dbContext.SaveChangesAsync();
+                _dbContext.Books.Add(entity);
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -115,8 +115,8 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
         {
             try
             {
-                dbContext.Entry(entity).State = EntityState.Modified;
-                await dbContext.SaveChangesAsync();
+                _dbContext.Entry(entity).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {

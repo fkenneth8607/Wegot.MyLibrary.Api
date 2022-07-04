@@ -14,13 +14,13 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Services
 
         private readonly ILogger<BookService> logger;
         private readonly IMapper mapper;
-        private readonly IBookRepository bookRepository;
+        private readonly IBookRepository _bookRepository;
   
         public BookService(ILogger<BookService> logger, IMapper mapper, IBookRepository bookRepository)
         {
             this.logger = logger;
             this.mapper = mapper;
-            this.bookRepository = bookRepository;
+            this._bookRepository = bookRepository;
  
         }
 
@@ -31,8 +31,8 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Services
         /// <returns></returns>
         public async Task Delete(int id)
         {
-            var result = await bookRepository.Get(id).ConfigureAwait(false);
-            await bookRepository.Delete(result);
+            var result = await _bookRepository.Get(id).ConfigureAwait(false);
+            await _bookRepository.Delete(result);
             
         }
 
@@ -43,7 +43,7 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Services
         /// <returns></returns>
         public async Task<BookDTO> Get(int id)
         {
-            var result = await bookRepository.Get(id).ConfigureAwait(false);
+            var result = await _bookRepository.Get(id).ConfigureAwait(false);
             return mapper.Map<BookDTO>(result);
         }
 
@@ -53,7 +53,7 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Services
         /// <returns></returns>
         public async Task<List<BookDTO>> GetAll()
         {
-            var result = await bookRepository.GetAll().ConfigureAwait(false);
+            var result = await _bookRepository.GetAll().ConfigureAwait(false);
             return mapper.Map<List<BookDTO>>(result);
         }
 
@@ -64,7 +64,7 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Services
         /// <returns></returns>
         public async Task Insert(BookDTO entity)
         {
-            await bookRepository.Insert(mapper.Map<Book>(entity)).ConfigureAwait(false);
+            await _bookRepository.Insert(mapper.Map<Book>(entity)).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Services
         /// <returns></returns>
         public async Task Update(BookDTO entity)
         {
-            await bookRepository.Update(mapper.Map<Book>(entity)).ConfigureAwait(false);
+            await _bookRepository.Update(mapper.Map<Book>(entity)).ConfigureAwait(false);
         }
     }
 }
