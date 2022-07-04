@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Wegot.MyLibrary.Api.ApplicationCore.Profiles.DTOs
 {
-    class BookDTOProfile : Profile
+    public class BookDTOProfile : Profile
     {
        /// <summary>
        /// Make Mapper from Entity to DTO

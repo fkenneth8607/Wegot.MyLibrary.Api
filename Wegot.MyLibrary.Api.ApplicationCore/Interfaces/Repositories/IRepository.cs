@@ -8,7 +8,7 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Interfaces.Repositories
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        Task<IEnumerable<T>> GetAll();
+        Task<List<T>> GetAll();
 
         Task<T> Get(int id);
 

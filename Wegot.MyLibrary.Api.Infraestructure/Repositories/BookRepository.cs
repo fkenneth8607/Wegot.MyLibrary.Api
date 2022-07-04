@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wegot.MyLibrary.Api.ApplicationCore.Entities;
@@ -20,29 +22,49 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
             this.dbContext = dbContext;
         }
 
-        public Task Delete(Book entity)
+        public async Task Delete(Book entity)
         {
-            throw new NotImplementedException();
+            dbContext.Books.Remove(entity);
+            await dbContext.SaveChangesAsync();
         }
 
-        public Task<Book> Get(int id)
+        public async Task<Book> Get(int id)
         {
-            throw new NotImplementedException();
+           return await dbContext
+                  .Books
+                  .Where(x=> x.Id == id)
+                  .AsNoTracking()
+                  .FirstAsync();
         }
 
-        public Task<IEnumerable<Book>> GetAll()
+        public async Task<List<Book>> GetAll()
         {
-            throw new NotImplementedException();
+            return await dbContext
+                 .Books
+                 .AsNoTracking()
+                 .ToListAsync();
         }
 
-        public Task Insert(Book entity)
+        public async Task Insert(Book entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                dbContext.Books.Add(entity);
+                await dbContext.SaveChangesAsync();
+            }catch (Exception ex)
+            {
+                return;
+            }
+            
+
         }
 
-        public Task Update(Book entity)
+        public async Task Update(Book entity)
         {
-            throw new NotImplementedException();
+
+            dbContext.Entry(entity).State = (Microsoft.EntityFrameworkCore.EntityState)EntityState.Modified;
+            await dbContext.SaveChangesAsync();
+            
         }
     }
 

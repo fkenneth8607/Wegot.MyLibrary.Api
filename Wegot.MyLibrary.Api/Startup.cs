@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using Wegot.MyLibrary.Api.ApplicationCore.Interfaces.Repositories;
 using Wegot.MyLibrary.Api.ApplicationCore.Interfaces.Services;
+using Wegot.MyLibrary.Api.ApplicationCore.Profiles.DTOs;
 using Wegot.MyLibrary.Api.ApplicationCore.Services;
 using Wegot.MyLibrary.Api.Infraestructure.Repositories;
 using WeGot.MyLibrary.Api.Infrastructure.Data;
@@ -26,6 +26,8 @@ namespace Wegot.MyLibrary.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddControllers();
             services.AddDbContext<MyLibraryDbContext>(
                           options =>
                               options.UseNpgsql(
@@ -34,9 +36,13 @@ namespace Wegot.MyLibrary.Api
                                       ),
                           ServiceLifetime.Transient);
 
+
+            services.AddHealthChecks();
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<IBookService, BookService>();
-            services.AddControllers();
+
+            services.AddAutoMapper(typeof(BookDTOProfile));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api Library", Version = "v1" });
@@ -71,7 +77,6 @@ namespace Wegot.MyLibrary.Api
 
             app.UseHttpsRedirection();
             //}
-
             app.UseRouting();
 
 

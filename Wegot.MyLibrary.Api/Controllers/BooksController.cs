@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Wegot.MyLibrary.Api.ApplicationCore.DTOs;
 using Wegot.MyLibrary.Api.ApplicationCore.Interfaces.Services;
@@ -21,6 +22,12 @@ namespace Wegot.MyLibrary.Api.Controllers
         {
             this.logger = logger;
             this.bookService = bookService;
+        }
+
+        [HttpGet()]
+        public async Task<List<BookDTO>> GetAll()
+        {
+            return await bookService.GetAll();
         }
 
         [HttpGet("{Id}")]

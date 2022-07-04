@@ -19,13 +19,13 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
             this.context = context;
             entities = context.Set<T>();
         }
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return entities.AsEnumerable();
+            return await entities.ToListAsync();
         }
         public async Task<T> Get(int id)
         {
-            return entities.FirstOrDefault(s => s.Id == id);
+            return await entities.FirstOrDefaultAsync(s => s.Id == id);
         }
         public async Task Insert(T entity)
         {

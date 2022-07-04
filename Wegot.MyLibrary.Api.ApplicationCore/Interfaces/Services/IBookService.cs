@@ -8,7 +8,7 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Interfaces.Services
 {
     public interface IBookService
     {
-        Task<IEnumerable<BookDTO>> GetAll();
+        Task<List<BookDTO>> GetAll();
 
         Task<BookDTO> Get(int id);
 

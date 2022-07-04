@@ -11,5 +11,8 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.DTOs
         public string Title { get; set; }
         public string Editorial { get; set; }
         public string Author { get; set; }
+        public int PagesNumber { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
 }
