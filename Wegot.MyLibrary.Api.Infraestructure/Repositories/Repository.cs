@@ -14,19 +14,38 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
         private readonly MyLibraryDbContext context;
         private DbSet<T> entities;
         string errorMessage = string.Empty;
+
         public Repository(MyLibraryDbContext context)
         {
             this.context = context;
             entities = context.Set<T>();
         }
+
+        /// <summary>
+        /// Generic get ALl Elements
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<T>> GetAll()
         {
-            return await entities.ToListAsync();
+            return await entities.ToListAsync().ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Generic get ById Element
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<T> Get(int id)
         {
-            return await entities.FirstOrDefaultAsync(s => s.Id == id);
+            return await entities.FirstOrDefaultAsync(s => s.Id == id).ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Generic Insert Any Entity
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task Insert(T entity)
         {
             if (entity == null)
@@ -37,6 +56,13 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
           
             await context.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// Generic Update Any Entity
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task Update(T entity)
         {
             if (entity == null)
@@ -46,6 +72,13 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
 
             await context.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// Generic Delete Any Item Entity
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task Delete(T entity)
         {
             if (entity == null)

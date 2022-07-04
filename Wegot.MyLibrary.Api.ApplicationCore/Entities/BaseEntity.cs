@@ -11,8 +11,8 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Entities
         public int Id { get; set; }
         [Column("createddate")]
         public DateTime CreatedDate { get; set; }
-        [Column("updateddate")]
-        public DateTime UpdatedDate { get; set; }
+        [Column("updatedate")]
+        public DateTime UpdateDate { get; set; }
 
     }
 }

@@ -13,6 +13,6 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.DTOs
         public string Author { get; set; }
         public int PagesNumber { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public DateTime UpdateDate { get; set; }
     }
 }

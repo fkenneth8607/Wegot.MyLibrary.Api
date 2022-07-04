@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+ 
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Wegot.MyLibrary.Api.ApplicationCore.Entities;
 using Wegot.MyLibrary.Api.ApplicationCore.Interfaces.Repositories;
@@ -22,49 +22,106 @@ namespace Wegot.MyLibrary.Api.Infraestructure.Repositories
             this.dbContext = dbContext;
         }
 
+
+        /// <summary>
+        /// Delete a Book Entity
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task Delete(Book entity)
         {
-            dbContext.Books.Remove(entity);
-            await dbContext.SaveChangesAsync();
+            try
+            {
+                dbContext.Books.Remove(entity);
+                await dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al Eliminar El Libro " + ex.InnerException.Message);
+            }
         }
 
+        /// <summary>
+        /// Get Book by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<Book> Get(int id)
         {
-           return await dbContext
-                  .Books
-                  .Where(x=> x.Id == id)
-                  .AsNoTracking()
-                  .FirstAsync();
+            try
+            {
+                return await dbContext
+                       .Books
+                       .Where(x => x.Id == id)
+                       .AsNoTracking()
+                       .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al Obtener El Libro " + ex.InnerException.Message);
+            }
         }
 
+        /// <summary>
+        /// Get All Books 
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<List<Book>> GetAll()
         {
-            return await dbContext
+            try
+            {
+                return await dbContext
                  .Books
                  .AsNoTracking()
                  .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al Obtener Todos los Libros " + ex.InnerException.Message);
+            }
         }
 
+        /// <summary>
+        /// Insert Book Entity
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task Insert(Book entity)
         {
             try
             {
                 dbContext.Books.Add(entity);
                 await dbContext.SaveChangesAsync();
-            }catch (Exception ex)
-            {
-                return;
             }
-            
+            catch (Exception ex)
+            {
+                throw new Exception("Error al Insertar El Libro " + ex.InnerException.Message);
+            }
+
 
         }
 
+        /// <summary>
+        /// Update Book Entity
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task Update(Book entity)
         {
-
-            dbContext.Entry(entity).State = (Microsoft.EntityFrameworkCore.EntityState)EntityState.Modified;
-            await dbContext.SaveChangesAsync();
-            
+            try
+            {
+                dbContext.Entry(entity).State = EntityState.Modified;
+                await dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al Actualizar El Libro " + ex.InnerException.Message);
+            }
         }
     }
 
