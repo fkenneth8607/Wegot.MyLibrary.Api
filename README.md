@@ -7,4 +7,5 @@ Basic Api Rest project for Books Crud
 * Using Entity Framework
 * Use of Swagger
 * Unit tests with xUnit
+* Front using Angular 12 Cli
 
