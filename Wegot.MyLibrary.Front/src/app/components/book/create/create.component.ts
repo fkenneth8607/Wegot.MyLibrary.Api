@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Book } from 'src/app/Models/Book';
 import { BooksService } from 'src/app/services/books.service';
 
 @Component({
@@ -8,9 +9,15 @@ import { BooksService } from 'src/app/services/books.service';
 })
 export class CreateComponent implements OnInit {
 
-  book = {
+  book : Book = {
+    id: 0,
     title: '',
-    description: ''
+    editorial: '',
+    pageNumber: 0,
+    author:'',
+    isbn:'',
+    createdDate: new Date(),
+    updateDate: new Date(),
   };
   isBookAdded = false;
 
@@ -20,16 +27,13 @@ export class CreateComponent implements OnInit {
 
   // Add New
   addBook(): void {
-    const data = {
-      title: this.book.title,
-      description: this.book.description
-    };
-    if (!data.title) {
+ 
+    if (!this.book.title) {
       alert('Please add title!');
       return;
     }
 
-    this.booksService.create(data)
+    this.booksService.create(this.book)
       .subscribe(
         response => {
           console.log(response);
@@ -43,9 +47,15 @@ export class CreateComponent implements OnInit {
   // Reset on adding new
   newBook(): void {
     this.isBookAdded = false;
-    this.book = {
+    this.book ={
+      id: 0,
       title: '',
-      description: ''
+      editorial: '',
+      pageNumber: 0,
+      author:'',
+      isbn:'',
+      createdDate: new Date(),
+      updateDate: new Date(),
     };
   }
 

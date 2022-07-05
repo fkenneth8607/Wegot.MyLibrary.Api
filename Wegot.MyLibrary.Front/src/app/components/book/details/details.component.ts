@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Book } from 'src/app/Models/Book';
 import { BooksService } from 'src/app/services/books.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { BooksService } from 'src/app/services/books.service';
 })
 export class DetailsComponent implements OnInit {
 
-  currentBook: any;
+  currentBook: Book;
   message = '';
 
   constructor(
@@ -19,13 +20,14 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.message = '';
-    this.getBook(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
+    this.getBook(id !== null ? JSON.parse(id) : 0);
   }
 
-  getBook(id: string | null): void {
-    this.booksService.getItem(id)
+  getBook(id: string): void {
+    this.booksService.getItem(parseInt(id))
       .subscribe(
-        (book: null) => {
+        (book: Book) => {
           this.currentBook = book;
           console.log(book);
         },
@@ -33,25 +35,7 @@ export class DetailsComponent implements OnInit {
           console.log(error);
         });
   }
-
-  setAvailableStatus(status: any): void {
-    const data = {
-      name: this.currentBook.name,
-      description: this.currentBook.description,
-      available: status
-    };
-
-    this.booksService.update(this.currentBook.id, data)
-      .subscribe(
-        response => {
-          this.currentBook.available = status;
-          console.log(response);
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
+ 
   updateBook(): void {
     this.booksService.update(this.currentBook.id, this.currentBook)
       .subscribe(

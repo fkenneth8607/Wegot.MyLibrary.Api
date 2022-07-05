@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Book } from 'src/app/Models/Book';
 import { BooksService } from 'src/app/services/books.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { BooksService } from 'src/app/services/books.service';
 })
 export class ListComponent implements OnInit {
 
-  books: any;
+  books: Book[];
   currentBook:any;
   currentIndex = -1;
   searchTitle = '';
@@ -42,17 +43,5 @@ export class ListComponent implements OnInit {
         console.log(error);
       });
   }
-
-  // Search items
-  searchByTitle(): void {
-    this.booksService.filterByTitle(this.searchTitle)
-      .subscribe(
-        books => {
-          this.books = books;
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
+ 
 }

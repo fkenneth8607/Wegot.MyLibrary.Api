@@ -2,6 +2,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
+import { Book } from '../Models/Book';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +11,19 @@ import { Observable, throwError } from 'rxjs';
 export class BooksService {
 
 
-  apiUrl: string = 'http://localhost:3000/books';
-  headers = new HttpHeaders().set('Content-Type', 'application/json');
+  private headers = {}
+  constructor(private httpClient: HttpClient) {
+    let headers = new HttpHeaders({
+      'Access-Control-Allow-Origin': 'http://localhost:4200',
+      'Access-Control-Allow-Methods': 'POST, GET, PUT, OPTIONS, DELETE',
+      'Access-Control-Allow-Headers': 'x-requested-with, content-type',
+      token: ''
+    })
+    this.headers = { headers: headers}
+  }
 
-
-  constructor(private httpClient: HttpClient) { }
+  private apiUrl = environment.API_URL + 'books/';
+ 
 
   // Show lists of item
   list(): Observable<any> {
@@ -23,39 +33,32 @@ export class BooksService {
   }
 
   // Create new item
-  getItem(id: any): Observable<any> {
+  getItem(id: number): Observable<any> {
     return this.httpClient.get(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError)
     );
   }
 
-  create(data: any): Observable<any> {
+  create(data: Book): Observable<any> {
     return this.httpClient.post(this.apiUrl, data).pipe(
       catchError(this.handleError)
     );
   }
 
   // Edit/ Update 
-  update(id: any, data: any): Observable<any> {
+  update(id: number, data: Book): Observable<any> {
     return this.httpClient.put(`${this.apiUrl}/${id}`, data).pipe(
       catchError(this.handleError)
     );
   }
 
   // Delete
-  delete(id: any): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.httpClient.delete(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError)
     );
   }
-
-  // Search By Name
-  filterByTitle(title: any): Observable<any> {
-    return this.httpClient.get(`${this.apiUrl}?title_like=${title}`).pipe(
-      catchError(this.handleError)
-    );
-  }
-
+ 
   // Handle API errors
   handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
