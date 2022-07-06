@@ -26,4 +26,4 @@ ng add @angular/material
 
 later npm install command
 
-in resources you have the database and must be restore in postgres sql
+in resources you have the database and must be restore in postgres sql and change your appsettings conection
