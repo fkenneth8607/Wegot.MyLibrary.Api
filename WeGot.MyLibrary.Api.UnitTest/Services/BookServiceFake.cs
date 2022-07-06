@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wegot.MyLibrary.Api.ApplicationCore.DTOs;
@@ -27,12 +28,23 @@ namespace WeGot.MyLibrary.Api.UnitTest.Services
 
         public Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var existing = _books.First(a => a.Id == id);
+            _books.Remove(existing);
+            return null;
         }
-
-        public Task<BookDTO> Get(int id)
+     
+        public async Task<BookDTO> Get(int id)
         {
-            throw new NotImplementedException();
+            if (id == 0)
+            {
+                throw new Exception("Record not found!");
+            }
+            else
+            {
+               return _books.Where(a => a.Id == id).FirstOrDefault();
+               
+            }
+            
         }
 
         public async Task<List<BookDTO>> GetAll()
@@ -42,12 +54,55 @@ namespace WeGot.MyLibrary.Api.UnitTest.Services
 
         public Task Insert(BookDTO entity)
         {
-            throw new NotImplementedException();
+            if (isValid(entity))
+            {
+                _books.Add(entity);
+            }
+
+            return Task.FromResult(true);
         }
 
         public Task Update(BookDTO entity)
         {
-            throw new NotImplementedException();
+            if (isValid(entity))
+            {
+                _books.Add(entity);
+                BookDTO result = _books.Where(a => a.Id == entity.Id).FirstOrDefault();
+                result = entity;
+            }
+           
+            return Task.FromResult(true);
+        }
+        public bool isValid(BookDTO entity)
+        {
+            bool valid = true;
+
+            if (string.IsNullOrEmpty(entity.Author))
+            {
+                valid = false;
+                throw new Exception("Autor es un campo Requerido");
+            }
+
+            if (string.IsNullOrEmpty(entity.Editorial))
+            {
+                valid = false;
+                throw new Exception("Editorial es un campo Requerido");
+            }
+
+            if (string.IsNullOrEmpty(entity.Title))
+            {
+                valid = false;
+                throw new Exception("Titulo es un campo Requerido");
+            }
+
+            if (string.IsNullOrEmpty(entity.ISBN))
+            {
+                valid = false;
+                throw new Exception("ISBN es un campo Requerido");
+            }
+
+            return valid;
+
         }
     }
 }
