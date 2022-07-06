@@ -3,7 +3,7 @@ Api .net Core books
 Basic Api Rest project for Books Crud
 
 * Realized with the clean architecture Combine with Generic Repository
-* Data connection with postgressql
+* Data connection with postgressql 14
 * Using Entity Framework
 * Use of Swagger
 ![image](https://user-images.githubusercontent.com/33763007/177394329-f454abf5-a898-4790-aaa3-ea69abff60a7.png)
@@ -26,3 +26,4 @@ ng add @angular/material
 
 later npm install command
 
+in resources you have the database and must be restore in postgres sql
