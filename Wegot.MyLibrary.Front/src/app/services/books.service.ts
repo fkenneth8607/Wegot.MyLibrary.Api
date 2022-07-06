@@ -4,6 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { Book } from '../Models/Book';
 import { environment } from 'src/environments/environment';
+import { ResponseData } from '../Models/ResponseData';
 
 @Injectable({
   providedIn: 'root'
@@ -11,65 +12,42 @@ import { environment } from 'src/environments/environment';
 export class BooksService {
 
 
-  private headers = {}
+  private headers = {};
   constructor(private httpClient: HttpClient) {
     let headers = new HttpHeaders({
       'Access-Control-Allow-Origin': 'http://localhost:4200',
       'Access-Control-Allow-Methods': 'POST, GET, PUT, OPTIONS, DELETE',
       'Access-Control-Allow-Headers': 'x-requested-with, content-type',
-      token: ''
     })
-    this.headers = { headers: headers}
+    this.headers = headers;
   }
 
-  private apiUrl = environment.API_URL + 'books/';
+  private apiUrl = environment.API_URL + 'books';
  
-
+ 
   // Show lists of item
-  list(): Observable<any> {
-    return this.httpClient.get(this.apiUrl).pipe(
-      catchError(this.handleError)
-    );
+  getAll(): Observable<ResponseData> {
+    return this.httpClient.get<ResponseData>(this.apiUrl, this.headers);
   }
 
   // Create new item
-  getItem(id: number): Observable<any> {
-    return this.httpClient.get(`${this.apiUrl}/${id}`).pipe(
-      catchError(this.handleError)
-    );
+  getById(id: number): Observable<ResponseData> {
+    return this.httpClient.get<ResponseData>(`${this.apiUrl}/${id}`, this.headers);
   }
 
-  create(data: Book): Observable<any> {
-    return this.httpClient.post(this.apiUrl, data).pipe(
-      catchError(this.handleError)
-    );
+  create(data: Book): Observable<ResponseData> {
+    return this.httpClient.post<ResponseData>(this.apiUrl, data, this.headers);
   }
 
   // Edit/ Update 
-  update(id: number, data: Book): Observable<any> {
-    return this.httpClient.put(`${this.apiUrl}/${id}`, data).pipe(
-      catchError(this.handleError)
-    );
+  update(id: number, data: Book): Observable<ResponseData> {
+    debugger;
+    return this.httpClient.put<ResponseData>(`${this.apiUrl}/${id}`, data, this.headers);
   }
 
   // Delete
-  delete(id: number): Observable<any> {
-    return this.httpClient.delete(`${this.apiUrl}/${id}`).pipe(
-      catchError(this.handleError)
-    );
+  delete(id: number): Observable<ResponseData> {
+    return this.httpClient.delete<ResponseData>(`${this.apiUrl}/${id}`, this.headers);
   }
- 
-  // Handle API errors
-  handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
-    } else {
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-    }
-    return throwError(
-      'Something bad happened; please try again later.');
-  };
 
 }

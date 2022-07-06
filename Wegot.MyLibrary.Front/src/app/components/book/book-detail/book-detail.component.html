@@ -1,0 +1,63 @@
+<mat-dialog-content   style="width: 150vh;overflow-x: hidden;">
+  <div class="ml-2">
+    <div class="row">
+      <div class="col-md-10 col-sm-10 col-lg-10">
+        <mat-card-title> {{ book.id > 0 ? 'Editar Libro' : 'Nuevo Libro'}}</mat-card-title>
+      </div>
+
+    </div>
+    <mat-divider class="mb-4"></mat-divider>
+
+    <form>
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-md-6 col-sm-6 col-lg-6 mt-4">
+          <mat-label>ISBN
+          </mat-label>
+          <input type="text" required matInput [(ngModel)]="book.isbn" name="isbn" placeholder="ISBN"
+            autocomplete="off">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-md-6 col-sm-6 col-lg-6 mt-4">
+          <mat-label>Titulo
+          </mat-label>
+          <input required [(ngModel)]="book.title" type="text" name="title" matInput placeholder="title"
+            autocomplete="off">
+
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-md-6 col-sm-6 col-lg-6 mt-4">
+          <mat-label>Autor
+          </mat-label>
+          <input type="text" required matInput [(ngModel)]="book.author" name="author" placeholder="author"
+            autocomplete="off">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-md-6 col-sm-6 col-lg-6 mt-4">
+          <mat-label>Editorial
+          </mat-label>
+          <input type="editorial" required matInput [(ngModel)]="book.editorial" name="editorial" placeholder="editorial"
+            autocomplete="off">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-md-6 col-sm-6 col-lg-6 mt-4">
+          <mat-label>Numero de Paginas
+          </mat-label>
+          <input type="number" required matInput [(ngModel)]="book.pagesNumber" name="pagesNumber" placeholder="pagesNumber"
+            autocomplete="off">
+        </mat-form-field>
+         
+      </div>
+    </form>
+
+    <mat-dialog-actions align="end" class="mt-2 mb-4">
+      <button [disabled]="book.title === '' || book.isbn === '' || book.author === '' || book.editorial === ''" mat-raised-button
+        (click)="book.id > 0 ? update() : save()" class="button-orange">
+        {{ book.id > 0? 'Editar'  : 'Guardar'}}
+      </button>
+
+      <button class="button-gray-outline" mat-raised-button mat-dialog-close (click)="back()">
+        Cancelar
+      </button>
+    </mat-dialog-actions>
+  </div>
+</mat-dialog-content>

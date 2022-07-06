@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Wegot.MyLibrary.Api.ApplicationCore.DTOs;
@@ -64,7 +65,10 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Services
         /// <returns></returns>
         public async Task Insert(BookDTO entity)
         {
-            await _bookRepository.Insert(mapper.Map<Book>(entity)).ConfigureAwait(false);
+            if (isValid(entity))
+            {
+                await _bookRepository.Insert(mapper.Map<Book>(entity)).ConfigureAwait(false);
+            }
         }
 
         /// <summary>
@@ -74,7 +78,43 @@ namespace Wegot.MyLibrary.Api.ApplicationCore.Services
         /// <returns></returns>
         public async Task Update(BookDTO entity)
         {
-            await _bookRepository.Update(mapper.Map<Book>(entity)).ConfigureAwait(false);
+            if (isValid(entity))
+            {
+                await _bookRepository.Update(mapper.Map<Book>(entity)).ConfigureAwait(false);
+            }
+            
+        }
+
+        public bool isValid(BookDTO entity)
+        {
+            bool valid = true;
+
+            if (string.IsNullOrEmpty(entity.Author))
+            {
+                valid = false;
+                throw new Exception("Autor es un campo Requerido");
+            }
+
+            if (string.IsNullOrEmpty(entity.Editorial))
+            {
+                valid = false;
+                throw new Exception("Editorial es un campo Requerido");
+            }
+
+            if (string.IsNullOrEmpty(entity.Title))
+            {
+                valid = false;
+                throw new Exception("Titulo es un campo Requerido");
+            }
+
+            if (string.IsNullOrEmpty(entity.ISBN))
+            {
+                valid = false;
+                throw new Exception("ISBN es un campo Requerido");
+            }
+
+            return valid;
+
         }
     }
 }

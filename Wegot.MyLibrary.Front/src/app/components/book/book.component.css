@@ -1,0 +1,40 @@
+.table {
+    width: 100% !important;
+  }
+  
+  .mat-column-isbn {
+    width: 10% !important;
+  }
+  
+  .mat-column-title {
+    width: 20% !important;
+  
+  } 
+  .mat-column-editorial {
+    width: 20% !important;
+  
+  } 
+  .mat-column-author {
+    width: 20% !important;
+  
+  } 
+  .mat-column-action {
+    width: 15% !important;
+  } 
+  button {
+    margin-bottom: 30px;
+    margin-left: 30px;
+  }
+  :host {
+    width: 100%;
+    display:inline-block;
+    flex-direction:row;
+    align-items: flex-start;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  

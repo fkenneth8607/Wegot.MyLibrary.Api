@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Wegot.MyLibrary.Api.ApplicationCore.DTOs;
 using Wegot.MyLibrary.Api.ApplicationCore.Interfaces.Services;
+using Wegot.MyLibrary.Api.ApplicationCore.Profiles.DTOs;
 
 namespace Wegot.MyLibrary.Api.Controllers
 {
@@ -22,73 +23,83 @@ namespace Wegot.MyLibrary.Api.Controllers
         }
 
         [HttpGet()]
-        public async Task<List<BookDTO>> GetAll()
+        public async Task<ResponseData> GetAll()
         {
-            return await _bookService.GetAll();
+            try
+            {
+                var oData = await _bookService.GetAll();
+                return new ResponseData() { Data = oData, Success = true, Status = 200, Message = "" };
+
+            }
+            catch (Exception exx)
+            {
+                return new ResponseData() { Data = null, Success = false, Status = 409, Message = exx.Message };
+            }
         }
 
         [HttpGet("{Id}")]
-        public async Task<BookDTO> Get(int Id)
+        public async Task<ResponseData> Get(int Id)
         {
-            return await _bookService.Get(Id);
+
+            try
+            {
+                var oData = await _bookService.Get(Id);
+                return new ResponseData() { Data = oData, Success = true, Status = 200, Message = "" };
+
+            }
+            catch (Exception exx)
+            {
+                return new ResponseData() { Data = null, Success = false, Status = 409, Message = exx.Message };
+            }
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Post([FromBody] BookDTO bookAdd)
+        public async Task<ResponseData>  Post([FromBody] BookDTO bookAdd)
         {
-
             try
             {
                 await _bookService.Insert(bookAdd);
+                return new ResponseData() { Data = null, Success = true, Status = 200, Message = "Registro Exitoso!" };
+
             }
             catch (Exception exx)
             {
-
-                return Conflict(exx.Message);
-
+                return new ResponseData() { Data = null, Success = false, Status = 409, Message = exx.Message };
             }
-
-            return Ok();
-
         }
 
         [HttpPut]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Put([FromBody] BookDTO bookEdit)
+        public async Task<ResponseData> Put([FromBody] BookDTO bookEdit)
         {
             try
             {
                 await _bookService.Update(bookEdit);
+                return new ResponseData() { Data = null, Success = true, Status = 200, Message = "Registro Exitoso!" };
+
             }
             catch (Exception exx)
             {
-
-                return Conflict(exx.Message);
-
+                return new ResponseData() { Data = null, Success = false, Status = 409, Message = exx.Message };
             }
-
-            return Ok();
-
 
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<ResponseData>  Delete(int Id)
         {
             try
             {
                 await _bookService.Delete(Id);
+                return new ResponseData() { Data = null, Success = true, Status = 200, Message = "Eliminacion Exitosa!" };
+
             }
             catch (Exception exx)
             {
-
-                return Conflict(exx.Message);
-
+                return new ResponseData() { Data = null, Success = false, Status = 409, Message = exx.Message };
             }
-
-            return Ok();
 
         }
     }
