@@ -14,12 +14,13 @@ export class BooksService {
 
   private headers = {};
   constructor(private httpClient: HttpClient) {
-    let headers = new HttpHeaders({
+    let headers =  {
+      'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': 'http://localhost:4200',
       'Access-Control-Allow-Methods': 'POST, GET, PUT, OPTIONS, DELETE',
       'Access-Control-Allow-Headers': 'x-requested-with, content-type',
-    })
-    this.headers = headers;
+    }
+    this.headers = { headers:   headers};
   }
 
   private apiUrl = environment.API_URL + 'books';
@@ -41,8 +42,7 @@ export class BooksService {
 
   // Edit/ Update 
   update(id: number, data: Book): Observable<ResponseData> {
-    debugger;
-    return this.httpClient.put<ResponseData>(`${this.apiUrl}/${id}`, data, this.headers);
+    return this.httpClient.put<ResponseData>(`${this.apiUrl}`, data, this.headers);
   }
 
   // Delete

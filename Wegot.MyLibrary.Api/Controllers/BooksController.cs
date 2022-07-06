@@ -76,7 +76,7 @@ namespace Wegot.MyLibrary.Api.Controllers
             try
             {
                 await _bookService.Update(bookEdit);
-                return new ResponseData() { Data = null, Success = true, Status = 200, Message = "Registro Exitoso!" };
+                return new ResponseData() { Data = null, Success = true, Status = 200, Message = "Actualizacion Exitosa!" };
 
             }
             catch (Exception exx)
